@@ -1,3 +1,9 @@
+<ng-container >
+</ng-container>
 <div class="card flex justify-center">
-  <p-button label="Check"></p-button>
+  <p>{{ 'welcome_message' | transloco : {title} }}</p>
+  <span transloco="hello"></span>
 </div>
+<p-button label="Submit" severity="secondary" />
+
+<router-outlet />
