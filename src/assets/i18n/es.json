@@ -1,0 +1,4 @@
+{
+  "hello": "Hola",
+  "welcome_message": "Esta aplicación se llama {{name}}!"
+}
