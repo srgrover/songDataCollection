@@ -1,4 +1,5 @@
 {
   "hello": "Hola",
-  "welcome_message": "Esta aplicación se llama {{name}}!"
+  "welcome_message": "Esta aplicación se llama {{name}}!",
+  "footer_header": "Mi bilioteca de canciones"
 }
