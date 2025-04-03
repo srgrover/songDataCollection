@@ -1,7 +1,15 @@
-<footer>
-  <p-panel header="{{ 'footer_header' | transloco }}">
-      <p class="m-0">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+<footer class="bg-neutral-50 p-4">
+  <div class="flex justify-between items-center">
+    <div>
+      <p class="text-xs text-gray-500">{{ 'footer.footer_header' | transloco }}</p>
+      <p class="m-0 text-sm text-gray-700">
+        {{ 'footer.footer_description' | transloco: { name: 'Jonathan' } }}
       </p>
-  </p-panel>
+    </div>
+    <div class="flex gap-2 items-center text-sm">
+      <p-button label="{{'footer.lang_es' | transloco}}" [style]="{ 'font-size': 'small', color: '#9a9a9a' }" severity="contrast" [link]="true" />
+      <span class="text-sm text-gray-500">|</span>
+      <p-button label="{{'footer.lang_en' | transloco}}" [style]="{ 'font-size': 'small', color: '#9a9a9a' }" severity="secondary" [link]="true" />
+    </div>
+  </div>
 </footer>
