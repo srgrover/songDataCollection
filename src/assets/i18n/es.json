@@ -1,0 +1,13 @@
+{
+  "header": {
+    "title": "Canciones"
+  },
+  "footer": {
+    "footer_header": "Mi bilioteca de canciones",
+    "footer_description": "Hecho con mucho ❤️ por {{name}}",
+    "visit_github": "Visita mi GitHub",
+    "visit_website": "Visita mi portafolio",
+    "lang_es": "Español",
+    "lang_en": "Inglés"
+  }
+}
