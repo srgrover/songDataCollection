@@ -14,26 +14,34 @@ import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
 
 import { AvailablesLanguajes, Languages } from '../../transloco.config';
+import { provideStore } from '@ngrx/store';
+import { provideEffects } from '@ngrx/effects';
+import { SongsEffects } from './store/songs/songs.effects';
+import { songsReducer } from './store/songs/songs.reducer';
+import { menuReducer } from './store/ui/menu.reducer';
 
 export const appConfig: ApplicationConfig = {
+
   providers: [
-    provideRouter(routes), 
+    provideRouter(routes),
     provideClientHydration(),
     provideHttpClient(),
     provideTransloco({
-      config: {
-        availableLangs: AvailablesLanguajes,
-        defaultLang: Languages.ES,
-        reRenderOnLangChange: true,
-        prodMode: !isDevMode(),
-      },
-      loader: TranslocoHttpLoader,
+        config: {
+            availableLangs: AvailablesLanguajes,
+            defaultLang: Languages.ES,
+            reRenderOnLangChange: true,
+            prodMode: !isDevMode(),
+        },
+        loader: TranslocoHttpLoader,
     }),
     provideAnimationsAsync(),
-        providePrimeNG({
-            theme: {
-                preset: Aura,
-            },
-        })
-  ]
+    providePrimeNG({
+        theme: {
+            preset: Aura,
+        },
+    }),
+    provideStore({ songs: songsReducer, menu: menuReducer }),
+    provideEffects([SongsEffects])
+]
 };
