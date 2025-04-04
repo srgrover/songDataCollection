@@ -10,6 +10,8 @@ import { Store } from '@ngrx/store';
 import * as MenuSelector from './store/ui/menu.reducer';
 import { Observable, Subscription } from 'rxjs';
 
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+
 @Component({
     selector: 'app-root',
     imports: [RouterOutlet, ButtonModule, TranslocoModule, SideMenuComponent, TopMenuComponent, FooterComponent, PanelModule],
@@ -18,13 +20,19 @@ import { Observable, Subscription } from 'rxjs';
 })
 
 export class AppComponent implements OnInit  {
+  mobileVersion = false;
   isMenuOpen: boolean = false;
   isMenuOpen$!: Observable<boolean>;
 
   private menuSubscription!: Subscription;
   
-  constructor(private store: Store) {
+  constructor(private store: Store, private breakpointObserver: BreakpointObserver) {
     this.isMenuOpen$ = this.store.select(MenuSelector.isSideMenuOpen);
+
+    this.breakpointObserver.observe([Breakpoints.Handset])
+      .subscribe(result => {
+        this.mobileVersion = result.matches && result.breakpoints[Breakpoints.HandsetPortrait];
+      });
   }
 
   ngOnInit() {
@@ -36,6 +44,11 @@ export class AppComponent implements OnInit  {
       next: (isOpen: boolean) => this.isMenuOpen = isOpen,
       error: (error: any) => console.log(error),
     });
+  }
+
+  generateDynamicClassname = () => {
+    if (!this.mobileVersion) return 'col-start-1 row-start-1 border-r-1 border-gray-200 bg-neutral-100';
+    return this.isMenuOpen ? 'absolute bg-neutral-100 w-full z-1' : 'hidden';
   }
 
   ngOnDestroy() {

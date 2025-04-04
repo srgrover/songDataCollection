@@ -1,7 +1,6 @@
-  <div class="grid min-h-screen grid-cols-[1fr] sm:grid-cols-[auto_1fr]">
+  <div [classList]="`grid min-h-screen ${mobileVersion ? 'grid-cols-[1fr]' : 'grid-cols-[auto_1fr]'}`">
     <!-- Side menu -->
-    <aside class="col-start-1 row-start-1 border-r-1 border-gray-200 bg-neutral-100" 
-      [classList]="isMenuOpen ? 'absolute bg-neutral-100 w-full z-1' : 'hidden'"
+    <aside [classList]="generateDynamicClassname()"
     >
       <app-side-menu />
     </aside>
