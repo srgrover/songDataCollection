@@ -46,19 +46,37 @@
           <ChipGenreComponent [genre]="genre" [song]="song!" />
         }
       </div>
-      <p-divider />
       <span>{{ 'songs.song.company' | transloco }}</span>
       <div class="card flex items-center gap-2 flex-wrap">
         @for (genre of song?.genre; track $index) {
           <ChipGenreComponent [genre]="genre" [song]="song!" />
         }
       </div>
-      <p-divider />
       <span>{{ 'songs.song.artist' | transloco }}</span>
       <div class="card flex items-center gap-2 flex-wrap">
         @for (genre of song?.genre; track $index) {
           <ChipGenreComponent [genre]="genre" [song]="song!" />
         }
+      </div>
+      <p-divider />
+      <div class="flex flex-col gap-3">
+        <span>{{'songs.song.duration' | transloco }}:</span>
+        <span>{{song?.duration}} seconds</span>
+      </div>
+      <p-divider />
+      <div class="flex flex-col gap-3">
+        <span>{{'songs.song.year' | transloco }}:</span>
+        <span>{{song?.year}}</span>
+      </div>
+      <p-divider />
+      <div class="flex flex-col gap-3">
+        <span>{{'songs.song.rating' | transloco }}:</span>
+        <div class="flex justify-start items-center gap-1">
+          <i class="pi pi-star-fill"></i>
+          <span>{{song?.rating}}</span>
+          <span>/</span>
+          <span>10</span>
+        </div>
       </div>
     </div>
   </div>
