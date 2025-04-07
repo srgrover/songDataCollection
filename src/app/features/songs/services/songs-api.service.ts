@@ -9,7 +9,7 @@ import { environment } from '../../../../../environments/environment';
 })
 
 export class SongsApiService {
-  URL = `${environment.API_URL}/songs` || '';
+  URL = environment.API_URL ? `${environment.API_URL}/songs` : '';
 
   constructor(private http: HttpClient) { }
 
@@ -22,13 +22,13 @@ export class SongsApiService {
     return this.http.get<Song>(url);
   }
 
-  addSong(book: Song): Observable<Song> {
-    return this.http.post<Song>(this.URL, book);
+  addSong(song: Song): Observable<Song> {
+    return this.http.post<Song>(this.URL, song);
   }
 
-  updateSong(id: number, book: Song): Observable<Song> {
+  updateSong(id: number, song: Song): Observable<Song> {
     const url = `${this.URL}/${id}`;
-    return this.http.put<Song>(url, book);
+    return this.http.put<Song>(url, song);
   }
 
   deleteSong(id: number): Observable<any> {

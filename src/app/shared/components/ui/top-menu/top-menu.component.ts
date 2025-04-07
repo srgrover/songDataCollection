@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Toolbar } from 'primeng/toolbar';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
@@ -16,7 +16,7 @@ import { Observable, Subscription } from 'rxjs';
   templateUrl: './top-menu.component.html',
   styleUrl: './top-menu.component.css',
 })
-export class TopMenuComponent implements OnInit {
+export class TopMenuComponent implements OnInit, OnDestroy {
   isMenuOpen: boolean = false;
   isMenuOpen$!: Observable<boolean>;
 
@@ -30,19 +30,18 @@ export class TopMenuComponent implements OnInit {
     this.getMenuState();
   }
 
-  toggleMenu() {
+  toggleMenu = () => {
     this.store.dispatch(MenuActions.toggleSideMenu({isSideMenuOpen: !this.isMenuOpen}));
-    console.log("🔍 ~ getMenuState ~ src/app/shared/components/ui/top-menu/top-menu.component.ts:39 ~ this.isMenuOpen:", this.isMenuOpen)
   }
     
-  getMenuState() {
+  getMenuState = () => {
     this.menuSubscription = this.isMenuOpen$.subscribe({
       next: (isOpen: boolean) => this.isMenuOpen = isOpen,
       error: (error: any) => console.log(error),
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy = () => {
     if (this.menuSubscription) this.menuSubscription.unsubscribe();
   }
 }
