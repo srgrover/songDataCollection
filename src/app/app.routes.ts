@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { SongsComponent } from './features/dashboard/pages/songs/songs.component';
-import { SongComponent } from './features/dashboard/pages/song/song.component';
+import { SongsComponent } from './features/songs/pages/songs/songs.component';
+import { SongComponent } from './features/songs/pages/song/song.component';
 
 export const routes: Routes = [
   { path: 'songs', component: SongsComponent },
