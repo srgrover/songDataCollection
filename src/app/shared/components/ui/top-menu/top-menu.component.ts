@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Toolbar } from 'primeng/toolbar';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
@@ -11,7 +11,32 @@ import { TranslocoModule } from '@jsverse/transloco';
   templateUrl: './top-menu.component.html',
   styleUrl: './top-menu.component.css'
 })
+export class TopMenuComponent implements OnInit, OnDestroy {
+  isMenuOpen: boolean = false;
+  isMenuOpen$!: Observable<boolean>;
 
-export class TopMenuComponent {
+  private menuSubscription!: Subscription;
+
+  constructor(private store: Store) {
+    this.isMenuOpen$ = this.store.select(MenuSelector.isSideMenuOpen);
+  }
   
+  ngOnInit(): void {
+    this.getMenuState();
+  }
+
+  toggleMenu = () => {
+    this.store.dispatch(MenuActions.toggleSideMenu({isSideMenuOpen: !this.isMenuOpen}));
+  }
+    
+  getMenuState = () => {
+    this.menuSubscription = this.isMenuOpen$.subscribe({
+      next: (isOpen: boolean) => this.isMenuOpen = isOpen,
+      error: (error: any) => console.log(error),
+    });
+  }
+
+  ngOnDestroy = () => {
+    if (this.menuSubscription) this.menuSubscription.unsubscribe();
+  }
 }
