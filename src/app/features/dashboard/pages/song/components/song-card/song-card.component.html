@@ -1,0 +1,20 @@
+<article
+  (click)="openSong()"
+  class="cursor-pointer sm:max-w-[400px] sm:min-w-[400px] border-gray-100 p-3 rounded-xl 
+       bg-white flex gap-3 flex-col"
+>
+  <h2 class="text-3xl font-extrabold flex flex-wrap h-[72px] line-clamp-1">
+      {{ song.title.length > 30 ? song.title.slice(0, 40) + "..." : song.title }}
+  </h2>
+  <div class="w-full sm:h-80 sm:w-full overflow-hidden rounded-lg items-center">
+    <img class="max-w-full w-full rounded-lg" src="{{ song.poster }}" />
+  </div>
+  <div class="flex flex-wrap gap-3 truncate overflow-hidden whitespace-nowrap w-full">
+    @for (genre of song.genre; track $index) {
+      <div class="flex gap-1">
+        <span>#</span>
+        <span>{{ genre }}</span>
+      </div>
+    }
+  </div>
+</article>
