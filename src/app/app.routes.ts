@@ -1,8 +1,10 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './features/dashboard/pages/home/home.component';
+import { SongsComponent } from './features/dashboard/pages/songs/songs.component';
+import { SongComponent } from './features/dashboard/pages/song/song.component';
 
 export const routes: Routes = [
-  { path: 'songs', component: HomeComponent },
-  { path: '', redirectTo: '/songs', pathMatch: 'full' }, // Ruta por defecto
-  { path: '**', redirectTo: '/songs' } // Ruta para cualquier otra URL (página no encontrada)
+  { path: 'songs', component: SongsComponent },
+  { path:'songs/:id', component: SongComponent },
+  { path: '', redirectTo: '/songs', pathMatch: 'full' }, 
+  { path: '**', redirectTo: '/songs' }
 ];
