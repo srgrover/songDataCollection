@@ -2,6 +2,22 @@
   "header": {
     "title": "Songs"
   },
+  "songs": {
+    "load_songs_error": "An error occurred while retrieving the songs",
+    "load_songs_empty": "There are no songs in your library",
+    "buttons": {
+      "add_song": "Add new Song"
+    },
+    "song": {
+      "http_get_error_404": "The song you are looking for does not exist",
+      "http_get_error_500": "An error occurred while retrieving the song",
+      "buttons": {
+        "save": "Guardar",
+        "edit": "Editar",
+        "delete": "Eliminar"
+      }
+    }
+  },
   "footer": {
     "footer_header": "My song library",
     "footer_text": "Made with ❤️ by {{name}}",

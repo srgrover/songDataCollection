@@ -2,6 +2,22 @@
   "header": {
     "title": "Canciones"
   },
+  "songs": {
+    "load_songs_error": "Ha ocurrido un error al cargar las canciones. Inténtalo de nuevo más tarde.",
+    "load_songs_empty": "No hay canciones en tu biblioteca. Añade una canción haciendo clic en el botón de abajo.",
+    "buttons": {
+      "add_song": "Añadir canción"
+    },
+    "song": {
+      "http_get_error_404": "La canción que estás buscando no existe.",
+      "http_get_error_500": "Ha ocurrido un error al cargar la canción. Inténtalo de nuevo más tarde.",
+      "buttons": {
+        "save": "Save",
+        "edit": "Edit",
+        "delete": "Remove"
+      }
+    }
+  },
   "footer": {
     "footer_header": "Mi bilioteca de canciones",
     "footer_description": "Hecho con mucho ❤️ por {{name}}",
