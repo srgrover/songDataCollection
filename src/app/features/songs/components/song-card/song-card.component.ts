@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { Song } from '../../../../../../core/models/song.model';
 import { Router } from '@angular/router';
 import { ChipModule } from 'primeng/chip';
+import { Song } from '../../../../core/models/song.model';
 
 @Component({
   selector: 'SongCard',

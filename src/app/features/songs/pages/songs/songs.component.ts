@@ -6,7 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import * as SongsSelectors from '../../../../store/songs/songs.reducer';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@jsverse/transloco';
-import { SongCardComponent } from '../song/components/song-card/song-card.component';
+import { SongCardComponent } from '../../components/song-card/song-card.component';
 
 @Component({
   selector: 'app-songs',

@@ -14,9 +14,10 @@ import { Tooltip } from 'primeng/tooltip';
 import { ImportsModule } from './imports';
 import { ToastModule } from 'primeng/toast';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { SkeletonModule } from 'primeng/skeleton';
-import { SongCardComponent } from './components/song-card/song-card.component';
-import { ChipGenreComponent } from "./components/chip-genre/chip-genre.component";
+import { DividerModule } from 'primeng/divider';
+import { SongCardComponent } from '../../components/song-card/song-card.component';
+import { ChipGenreComponent } from '../../components/chip-genre/chip-genre.component';
+import { SongSkeletonComponent } from '../../components/song-skeleton/song-skeleton.component';
 
 @Component({
   selector: 'app-song',
@@ -31,8 +32,9 @@ import { ChipGenreComponent } from "./components/chip-genre/chip-genre.component
     ButtonModule,
     ToastModule,
     ProgressSpinnerModule,
-    SkeletonModule,
-    ChipGenreComponent
+    ChipGenreComponent,
+    SongSkeletonComponent,
+    DividerModule
 ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './song.component.html',

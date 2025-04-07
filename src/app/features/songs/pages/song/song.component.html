@@ -39,12 +39,44 @@
       <SongCard [song]="song!" />
     </div>
 
-    <div class="p-3">
-      <span>{{ '' | transloco }}</span>
+    <div class="flex flex-col gap-3 p-3">
+      <span>{{ 'songs.song.genre' | transloco }}</span>
       <div class="card flex items-center gap-2 flex-wrap">
         @for (genre of song?.genre; track $index) {
           <ChipGenreComponent [genre]="genre" [song]="song!" />
         }
+      </div>
+      <span>{{ 'songs.song.company' | transloco }}</span>
+      <div class="card flex items-center gap-2 flex-wrap">
+        @for (genre of song?.genre; track $index) {
+          <ChipGenreComponent [genre]="genre" [song]="song!" />
+        }
+      </div>
+      <span>{{ 'songs.song.artist' | transloco }}</span>
+      <div class="card flex items-center gap-2 flex-wrap">
+        @for (genre of song?.genre; track $index) {
+          <ChipGenreComponent [genre]="genre" [song]="song!" />
+        }
+      </div>
+      <p-divider />
+      <div class="flex flex-col gap-3">
+        <span>{{'songs.song.duration' | transloco }}:</span>
+        <span>{{song?.duration}} seconds</span>
+      </div>
+      <p-divider />
+      <div class="flex flex-col gap-3">
+        <span>{{'songs.song.year' | transloco }}:</span>
+        <span>{{song?.year}}</span>
+      </div>
+      <p-divider />
+      <div class="flex flex-col gap-3">
+        <span>{{'songs.song.rating' | transloco }}:</span>
+        <div class="flex justify-start items-center gap-1">
+          <i class="pi pi-star-fill"></i>
+          <span>{{song?.rating}}</span>
+          <span>/</span>
+          <span>10</span>
+        </div>
       </div>
     </div>
   </div>
@@ -54,21 +86,6 @@
   <p class="p-5">{{ "songs.load_song_error" | transloco }}</p>
   } @placeholder {
   <!-- skeleton -->
-  <div class="flex flex-col gap-3">
-    <div class="flex flex-row gap-2">
-      <p-skeleton size="2rem" styleClass="mr-2" />
-      <p-skeleton size="2rem" styleClass="mr-2" />
-    </div>
-
-    <p-skeleton width="20rem" styleClass="mb-2" />
-    <p-skeleton width="7rem" styleClass="mb-2" />
-    <p-skeleton height="18rem" />
-
-    <div class="flex gap-3">
-      <p-skeleton width="3rem" styleClass="mb-2" />
-      <p-skeleton width="3rem" styleClass="mb-2" />
-      <p-skeleton width="3rem" styleClass="mb-2" />
-    </div>
-  </div>
+  <SongSkeletonComponent />
   }
 </div>
