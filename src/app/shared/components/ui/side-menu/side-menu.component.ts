@@ -2,13 +2,17 @@ import { Component, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MenuItem } from 'primeng/api';
 import { TieredMenu } from 'primeng/tieredmenu';
-
+import { Observable, Subscription } from 'rxjs';
+import * as MenuSelector from '../../../../store/ui/menu.reducer';
+import { ButtonModule } from 'primeng/button';
+import * as MenuActions from '../../../../../actions/menu.actions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-side-menu',
-  imports: [TieredMenu],
+  imports: [TieredMenu, ButtonModule],
   templateUrl: './side-menu.component.html',
-  styleUrl: './side-menu.component.css'
+  styleUrl: './side-menu.component.css',
 })
 export class SideMenuComponent implements OnDestroy {
 

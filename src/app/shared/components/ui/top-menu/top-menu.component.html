@@ -4,6 +4,7 @@
     <ng-template #start>
         <div class="flex justify-start items-center gap-3">
             <p-button
+            (click)="toggleMenu()"
             class="flex! sm:hidden! md:hidden!"
               [style]="{ 'width': '2em' }"
               icon="pi pi-bars hover:bg-transparent! flex! sm:hidden! md:hidden! text-gray-700"

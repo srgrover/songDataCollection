@@ -4,12 +4,17 @@ import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@jsverse/transloco';
+import { Store } from '@ngrx/store';
+import * as MenuActions from '../../../../../actions/menu.actions';
+import * as MenuSelector from '../../../../store/ui/menu.reducer';
+
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-top-menu',
   imports: [Toolbar, AvatarModule, ButtonModule, CommonModule, TranslocoModule],
   templateUrl: './top-menu.component.html',
-  styleUrl: './top-menu.component.css'
+  styleUrl: './top-menu.component.css',
 })
 export class TopMenuComponent implements OnInit, OnDestroy {
   isMenuOpen: boolean = false;
