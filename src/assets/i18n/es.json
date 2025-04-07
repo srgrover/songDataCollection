@@ -13,6 +13,8 @@
       "artist": "Artista",
       "company": "Compañía",
       "duration": "Duración",
+      "year": "Año",
+      "rating": "Valoración",
       "http_get_error_404": "La canción que estás buscando no existe.",
       "http_get_error_500": "Ha ocurrido un error al cargar la canción. Inténtalo de nuevo más tarde.",
       "buttons": {
