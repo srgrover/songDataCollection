@@ -1,7 +1,8 @@
+import { SongsApiService } from './../../services/songs-api.service';
 import { Component, Input, ViewChild } from '@angular/core';
 import { Chip } from 'primeng/chip';
-import { SongsApiService } from '../../../companies/services/songs-api.service';
 import { Song } from '../../../../core/models/song.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'ChipGenreComponent',
@@ -19,9 +20,7 @@ export class ChipGenreComponent {
   onRemoveChip = (genre: string) => {
     this.song.genre = this.song.genre.filter((g: string) => g !== genre);
     this.songsApiService.updateSong(this.song.id, this.song).subscribe({
-      next: (resp) => {
-        console.log(resp, "TODO OK, ELIMINADO")
-      },
+      error: (err: HttpErrorResponse) => console.error(err.message),
     })
   }
 }

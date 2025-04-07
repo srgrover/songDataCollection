@@ -3,7 +3,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SongsApiService } from '../../../songs/services/songs-api.service';
 import { Song } from '../../../../core/models/song.model';
 import { Subscription } from 'rxjs';
-import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
+import {
+  ConfirmationService,
+  MenuItem,
+  MessageService,
+  ToastMessageOptions,
+} from 'primeng/api';
 import { Toolbar } from 'primeng/toolbar';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -18,6 +23,8 @@ import { DividerModule } from 'primeng/divider';
 import { SongCardComponent } from '../../components/song-card/song-card.component';
 import { ChipGenreComponent } from '../../components/chip-genre/chip-genre.component';
 import { SongSkeletonComponent } from '../../components/song-skeleton/song-skeleton.component';
+import { CompanyApiService } from '../../../companies/services/company-api.service';
+import { Company } from '../../../../core/models/company.model';
 
 @Component({
   selector: 'app-song',
@@ -34,8 +41,8 @@ import { SongSkeletonComponent } from '../../components/song-skeleton/song-skele
     ProgressSpinnerModule,
     ChipGenreComponent,
     SongSkeletonComponent,
-    DividerModule
-],
+    DividerModule,
+  ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './song.component.html',
   styleUrl: './song.component.css',
@@ -45,6 +52,7 @@ export class SongComponent implements OnInit, OnDestroy {
 
   id: number | null = null;
   song: Song | null = null;
+  companies: Company[] = [];
 
   items: MenuItem[] | undefined = [
     {
@@ -65,8 +73,9 @@ export class SongComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private songsService: SongsApiService,
+    private companyService: CompanyApiService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService,
+    private confirmationService: ConfirmationService
   ) {
     const paramId = this.route.snapshot.paramMap.get('id');
     this.id = paramId ? +paramId : null;
@@ -78,9 +87,22 @@ export class SongComponent implements OnInit, OnDestroy {
   }
 
   getSong = () => {
-    console.log(this.translateSong()['http_get_error_404']);
     this.songSubscription = this.songsService.getSong(this.id!).subscribe({
-      next: (song) => (this.song = song),
+      next: (song) => {
+        if (song) {
+          this.song = song;
+          this.companyService.getCompaniesBySongId(song.id).subscribe({
+            next: (companies) => (this.companies = companies),
+            error: (err: HttpErrorResponse) => {
+              this.messageService.add({
+                severity: 'error',
+                summary: err.status === 404 ? '404 - Error' : 'Error',
+                detail: err.message,
+              });
+            },
+          });
+        }
+      },
       error: (err: HttpErrorResponse) => {
         this.messageService.add({
           severity: 'error',
@@ -129,7 +151,6 @@ export class SongComponent implements OnInit, OnDestroy {
       accept: () => {
         this.songsService.deleteSong(this.id!).subscribe({
           next: (data) => {
-          console.log("🔍 ~ accept ~ src/app/features/dashboard/pages/song/song.component.ts:126 ~ data:", data)
             this.messageService.add({
               severity: 'success',
               summary: 'Deleted',
@@ -139,19 +160,20 @@ export class SongComponent implements OnInit, OnDestroy {
             this.router.navigate(['/songs']);
           },
           error: (err: HttpErrorResponse) => {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Rejected',
-              detail: err.status === 404? '404 - Error' : err.message,
-              life: 3000,
-            });
+            this.showErrorMessage({detail: err.status === 404 ? '404 - Error' : err.message});
           },
         });
       },
-      reject: () => {
-
-      },
+      reject: () => {},
     });
+  };
+
+  showSuccessMessage = (message: ToastMessageOptions) => {
+    this.messageService.add({ ...message, life: 3000, severity: 'success' });
+  };
+
+  showErrorMessage = (message: ToastMessageOptions) => {
+    this.messageService.add({ ...message, life: 3000, severity: 'error', summary: 'Error' });
   };
 
   ngOnDestroy() {
