@@ -1,0 +1,73 @@
+<div class="flex flex-col justify-center w-5/12 m-auto">
+  <p-toolbar styleClass="border-0">
+    @if (!editMode) {
+    <ng-template #start>
+      <p-button
+        (click)="onEdit()"
+        tooltipPosition="top"
+        pTooltip="{{ 'songs.song.buttons.edit' | transloco }}"
+        icon="pi pi-pencil"
+        text
+        severity="secondary"
+      />
+      <div class="card flex justify-center gap-2">
+        <p-toast />
+        <p-confirmdialog />
+        <p-button
+          severity="danger"
+          (click)="onDelete($event)"
+          tooltipPosition="top"
+          pTooltip="{{ 'songs.song.buttons.delete' | transloco }}"
+          icon="pi pi-trash"
+          text
+        />
+      </div>
+    </ng-template>
+    } @else {
+    <ng-template #start>
+      <p-button
+        (click)="onSave()"
+        label="{{ 'songs.song.buttons.save' | transloco }}"
+        icon="pi pi-check"
+      />
+    </ng-template>
+    }
+  </p-toolbar>
+  @defer (when song) {
+  <div class="flex flex-wrap gap-3">
+    <div class="flex flex-col">
+      <SongCard [song]="song!" />
+    </div>
+
+    <div class="flex flex-col gap-3 p-3">
+      <span>{{ 'songs.song.genre' | transloco }}</span>
+      <div class="card flex items-center gap-2 flex-wrap">
+        @for (genre of song?.genre; track $index) {
+          <ChipGenreComponent [genre]="genre" [song]="song!" />
+        }
+      </div>
+      <p-divider />
+      <span>{{ 'songs.song.company' | transloco }}</span>
+      <div class="card flex items-center gap-2 flex-wrap">
+        @for (genre of song?.genre; track $index) {
+          <ChipGenreComponent [genre]="genre" [song]="song!" />
+        }
+      </div>
+      <p-divider />
+      <span>{{ 'songs.song.artist' | transloco }}</span>
+      <div class="card flex items-center gap-2 flex-wrap">
+        @for (genre of song?.genre; track $index) {
+          <ChipGenreComponent [genre]="genre" [song]="song!" />
+        }
+      </div>
+    </div>
+  </div>
+  } @loading {
+  <p-progressSpinner />
+  } @error {
+  <p class="p-5">{{ "songs.load_song_error" | transloco }}</p>
+  } @placeholder {
+  <!-- skeleton -->
+  <SongSkeletonComponent />
+  }
+</div>
