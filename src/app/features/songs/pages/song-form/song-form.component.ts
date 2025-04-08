@@ -13,6 +13,9 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputGroup } from 'primeng/inputgroup';
 import { SongsApiService } from '../../services/songs-api.service';
 import { Song } from '../../../../core/models/song.model';
+import { DropdownModule } from 'primeng/dropdown';
+import { ArtistsApiService } from '../../../artists/services/artist-api.service';
+import { Artist } from '../../../../core/models/artist.model';
 
 @Component({
   selector: 'app-song-form',
@@ -29,6 +32,7 @@ import { Song } from '../../../../core/models/song.model';
     ChipModule,
     InputGroupAddonModule,
     InputGroup,
+    DropdownModule
 ],
   providers: [MessageService],
   templateUrl: './song-form.component.html',
@@ -40,8 +44,10 @@ export class SongFormComponent implements OnInit {
   isEditMode = false;
   songId: number | null = null;
 
+  // Por usar signals para el ejemplo
   genres = signal<string[]>([]);
   newGenre: string = '';
+  artists: Artist[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -49,7 +55,8 @@ export class SongFormComponent implements OnInit {
     private messageService: MessageService,
     private router: Router,
     private route: ActivatedRoute,
-    private translocoService: TranslocoService
+    private translocoService: TranslocoService,
+    private artistsService: ArtistsApiService
   ) {
     this.songForm = this.fb.group({
       title: ['', Validators.required],
@@ -61,6 +68,7 @@ export class SongFormComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+    this.loadArtists()
     const id = this.route.snapshot.paramMap.get('id');
 
     if (id) {
@@ -104,18 +112,13 @@ export class SongFormComponent implements OnInit {
     }
   }
 
-  removeGenre(genre: string): void {
-  console.log("🔍 ~ removeGenre ~ src/app/features/songs/pages/song-form/song-form.component.ts:110 ~ genre:", genre)
-  console.log("🔍 ~ removeGenre ~ src/app/features/songs/pages/song-form/song-form.component.ts:112 ~ this.genres:", this.genres)
-  this.genres.update(genres => genres.filter(g => g !== genre));
-  console.log("🔍 ~ removeGenre ~ src/app/features/songs/pages/song-form/song-form.component.ts:112 ~ this.genres:", this.genres)
-  }
+  removeGenre = (genre: string): void => this.genres.update(genres => genres.filter(g => g !== genre));
 
   onSubmit(): void {
-    if (this.songForm.valid && this.genres.length > 0) {
+    if (this.songForm.valid) {
       const songData: Song = {
         ...this.songForm.value,
-        genre: this.genres
+        genre: this.genres()
       };
 
       const action = this.isEditMode
@@ -133,7 +136,7 @@ export class SongFormComponent implements OnInit {
             life: 3000
           });
 
-          this.goToSongs();
+          this.callback();
         },
         error: () => {
           this.messageService.add({
@@ -150,6 +153,29 @@ export class SongFormComponent implements OnInit {
   goToSongs(): void {
     setTimeout(() => {
       this.router.navigate(['/songs']);;
-    }, 3000);
+    }, 1000);
+  }
+
+  callback(): void {
+    setTimeout(() => {
+      this.router.navigate([`/songs/${this.songId}`]);
+    }, 1000);
+  }
+
+  loadArtists(): void {
+    this.artistsService.getArtists().subscribe({
+      next: (artists) => {
+      console.log("🔍 ~ loadArtists ~ src/app/features/songs/pages/song-form/song-form.component.ts:161 ~ artists:", artists)
+        this.artists = artists;
+      },
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: this.translocoService.translate('songs.form.load_artists_error'),
+          life: 3000
+        });
+      }
+    });
   }
 }

@@ -80,12 +80,15 @@
 
     <div class="flex flex-col gap-2">
       <label for="artist">{{ "songs.form.artist" | transloco }}</label>
-      <input
-        pInputText
+      <p-dropdown
         id="artist"
         formControlName="artist"
+        [options]="artists"
+        optionLabel="name"
+        optionValue="id"
         [placeholder]="'songs.form.artist_placeholder' | transloco"
-      />
+        [showClear]="true"
+      ></p-dropdown>
     </div>
 
     <div class="flex justify-end gap-2 mt-4">
