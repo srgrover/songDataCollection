@@ -50,7 +50,7 @@
   },
   "footer": {
     "footer_header": "My song library",
-    "footer_text": "Made with ❤️ by {{name}}",
+    "footer_description": "Made with ❤️ by {{name}}",
     "visit_github": "Visit my GitHub",
     "visit_website": "Visit my portfolio",
     "lang_es": "Spanish",
