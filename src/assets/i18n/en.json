@@ -45,7 +45,8 @@
       "create_success": "Song created successfully",
       "update_success": "Song updated successfully",
       "save_error": "Error saving song",
-      "load_error": "Error loading song"
+      "load_error": "Error loading song",
+      "load_artists_error": "Error loading artists"
     }
   },
   "footer": {

@@ -45,7 +45,8 @@
       "create_success": "Canción creada correctamente",
       "update_success": "Canción actualizada correctamente",
       "save_error": "Error al guardar la canción",
-      "load_error": "Error al cargar la canción"
+      "load_error": "Error al cargar la canción",
+      "load_artists_error": "Error al cargar los artistas"
     }
   },
   "footer": {
