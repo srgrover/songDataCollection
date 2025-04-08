@@ -1,7 +1,6 @@
 <div class="flex flex-col justify-center w-5/12 m-auto">
   @defer (when song) {
   <p-toolbar styleClass="border-0">
-    @if (!editMode) {
     <ng-template #start>
       <p-button
         (click)="onEdit()"
@@ -24,15 +23,6 @@
         />
       </div>
     </ng-template>
-    } @else {
-    <ng-template #start>
-      <p-button
-        (click)="onSave()"
-        label="{{ 'songs.song.buttons.save' | transloco }}"
-        icon="pi pi-check"
-      />
-    </ng-template>
-    }
   </p-toolbar>
   <div class="flex flex-wrap gap-3">
     <div class="flex flex-col">
