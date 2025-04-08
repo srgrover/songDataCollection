@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { PanelModule } from 'primeng/panel';
-import { TranslocoModule } from '@jsverse/transloco';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { ButtonModule } from 'primeng/button';
-
 
 @Component({
   selector: 'FooterComponent',
@@ -12,5 +11,16 @@ import { ButtonModule } from 'primeng/button';
 })
 
 export class FooterComponent {
-  
+  currentLang = this.translocoService.getActiveLang();
+  languages: string[] = [];
+  constructor(private translocoService: TranslocoService) {
+    const availableLangs = this.translocoService.getAvailableLangs();
+    if (Array.isArray(availableLangs) && typeof availableLangs[0] === 'string') {
+      this.languages = availableLangs as string[];
+    } else {
+      this.languages = (availableLangs as { id: string; label: string }[]).map(lang => lang.id);
+    }
+  }
+
+  changeLanguage = (lang: string) => this.translocoService.setActiveLang(lang);
 }

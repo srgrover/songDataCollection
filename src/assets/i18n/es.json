@@ -24,6 +24,28 @@
         "edit": "Edit",
         "delete": "Remove"
       }
+    },
+    "form": {
+      "title": "Título",
+      "title_placeholder": "Introduce el título de la canción",
+      "duration": "Duración",
+      "duration_placeholder": "Duración en segundos",
+      "genre": "Género",
+      "genre_placeholder": "Rock, Pop, Jazz...",
+      "genre_help": "Introduce los géneros separados por comas",
+      "year": "Año",
+      "year_placeholder": "Año de lanzamiento",
+      "rating": "Puntuación",
+      "rating_placeholder": "Puntuación del 0 al 10",
+      "artist": "Artista",
+      "artist_placeholder": "Selecciona un artista",
+      "cancel": "Cancelar",
+      "create": "Crear canción",
+      "update": "Actualizar canción",
+      "create_success": "Canción creada correctamente",
+      "update_success": "Canción actualizada correctamente",
+      "save_error": "Error al guardar la canción",
+      "load_error": "Error al cargar la canción"
     }
   },
   "footer": {
