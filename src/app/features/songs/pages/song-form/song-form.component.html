@@ -1,0 +1,113 @@
+<div class="flex flex-col justify-center w-5/12 m-auto">
+  <p-toast></p-toast>
+
+  <form
+    [formGroup]="songForm"
+    (ngSubmit)="onSubmit()"
+    class="flex flex-col gap-4 p-4"
+  >
+    <div class="flex flex-col gap-2">
+      <label for="title">{{ "songs.form.title" | transloco }}</label>
+      <input
+        pInputText
+        id="title"
+        formControlName="title"
+        [placeholder]="'songs.form.title_placeholder' | transloco"
+      />
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label for="duration">{{ "songs.form.duration" | transloco }}</label>
+      <p-inputNumber
+        id="duration"
+        formControlName="duration"
+        [min]="0"
+        [placeholder]="'songs.form.duration_placeholder' | transloco"
+      ></p-inputNumber>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label for="genre">{{ "songs.form.genre" | transloco }}</label>
+      <div class="flex gap-2">
+        <p-inputgroup>
+          <input
+            #inputGenre
+            [(ngModel)]="newGenre"
+            [ngModelOptions]="{standalone: true}"
+            pInputText
+            placeholder="Keyword"
+            [placeholder]="'songs.form.genre_placeholder' | transloco"
+          />
+          <p-button
+            icon="pi pi-plus"
+            (click)="addGenre(inputGenre.value)"
+            [disabled]="!inputGenre.value.trim()"
+          />
+        </p-inputgroup>
+      </div>
+      <div class="flex flex-wrap gap-2 mt-2">
+        @for (genre of genres; track $index) {
+        <p-chip
+          [label]="genre"
+          [removable]="true"
+          (onRemove)="removeGenre(genre)"
+        ></p-chip>
+        }
+      </div>
+      @if (genres.length === 0) {
+      <small class="text-red-500">{{
+        "songs.form.genre_required" | transloco
+      }}</small>
+      }
+    </div>
+    <small>{{ "songs.form.genre_help" | transloco }}</small>
+
+    <div class="flex flex-col gap-2">
+      <label for="year">{{ "songs.form.year" | transloco }}</label>
+      <p-inputNumber
+        id="year"
+        formControlName="year"
+        [min]="1900"
+        [placeholder]="'songs.form.year_placeholder' | transloco"
+      ></p-inputNumber>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label for="rating">{{ "songs.form.rating" | transloco }}</label>
+      <p-inputNumber
+        id="rating"
+        formControlName="rating"
+        [min]="0"
+        [max]="10"
+        [placeholder]="'songs.form.rating_placeholder' | transloco"
+      ></p-inputNumber>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label for="artist">{{ "songs.form.artist" | transloco }}</label>
+      <input
+        pInputText
+        id="artist"
+        formControlName="artist"
+        [placeholder]="'songs.form.artist_placeholder' | transloco"
+      />
+    </div>
+
+    <div class="flex justify-end gap-2 mt-4">
+      <p-button
+        type="button"
+        [label]="'songs.form.cancel' | transloco"
+        severity="secondary"
+        [outlined]="true"
+        (click)="goToSongs()"
+      ></p-button>
+      <p-button
+        type="submit"
+        [label]="
+          (isEditMode ? 'songs.form.update' : 'songs.form.create') | transloco
+        "
+        [disabled]="songForm.invalid"
+      ></p-button>
+    </div>
+  </form>
+</div>
