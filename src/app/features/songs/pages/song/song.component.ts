@@ -13,7 +13,6 @@ import { Toolbar } from 'primeng/toolbar';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { HttpErrorResponse } from '@angular/common/http';
-import { translateObjectSignal } from '@jsverse/transloco';
 import { TranslocoModule } from '@jsverse/transloco';
 import { Tooltip } from 'primeng/tooltip';
 import { ImportsModule } from './imports';
@@ -48,8 +47,6 @@ import { Company } from '../../../../core/models/company.model';
   styleUrl: './song.component.css',
 })
 export class SongComponent implements OnInit, OnDestroy {
-  translateSong = translateObjectSignal('songs.song');
-
   id: number | null = null;
   song: Song | null = null;
   companies: Company[] = [];
@@ -64,8 +61,6 @@ export class SongComponent implements OnInit, OnDestroy {
       icon: 'pi pi-times',
     },
   ];
-
-  editMode: boolean = false;
 
   private songSubscription: Subscription | undefined;
 
@@ -107,7 +102,7 @@ export class SongComponent implements OnInit, OnDestroy {
         this.messageService.add({
           severity: 'error',
           summary: err.status === 404 ? '404 - Error' : 'Error',
-          detail: this.translateSong()['http_get_error_404'],
+          //detail: this.translateSong()['http_get_error_404'],
           life: 3000,
         });
       },
@@ -118,18 +113,7 @@ export class SongComponent implements OnInit, OnDestroy {
     this.router.navigate(['/songs']);
   };
 
-  onEdit = () => {
-    this.editMode = true;
-  };
-
-  onSave = () => {
-    this.editMode = false;
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Guardado correctamente',
-      life: 3000,
-    });
-  };
+  onEdit = () => this.router.navigate(['/songs/edit/', this.id]);
 
   onDelete = (event: Event) => {
     this.confirmationService.confirm({
