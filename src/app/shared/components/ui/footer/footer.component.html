@@ -1,15 +1,27 @@
 <footer class="bg-neutral-50 p-4">
   <div class="flex justify-between items-center">
     <div>
-      <p class="text-xs text-gray-500">{{ 'footer.footer_header' | transloco }}</p>
+      <p class="text-xs text-gray-500">
+        {{ "footer.footer_header" | transloco }}
+      </p>
       <p class="m-0 text-sm text-gray-700">
-        {{ 'footer.footer_description' | transloco: { name: 'Jonathan' } }}
+        {{ "footer.footer_description" | transloco : { name: "Jonathan" } }}
       </p>
     </div>
     <div class="flex gap-2 items-center text-sm">
-      <p-button label="{{'footer.lang_es' | transloco}}" [style]="{ 'font-size': 'small', color: '#9a9a9a' }" severity="contrast" [link]="true" />
+      @for (lang of languages; track $index) {
+      <p-button
+        (click)="changeLanguage(lang)"
+        label="{{`footer.lang_${lang.toLocaleLowerCase()}` | transloco}}"
+        [className]="{ 'font-bold': lang === currentLang }"
+        [style]="{ 'font-size': 'small', color: '#9a9a9a' }"
+        severity="contrast"
+        [class.font-bold]="lang === currentLang"
+        [link]="true"
+      />
+      @if ($index !== languages.length - 1) {
       <span class="text-sm text-gray-500">|</span>
-      <p-button label="{{'footer.lang_en' | transloco}}" [style]="{ 'font-size': 'small', color: '#9a9a9a' }" severity="secondary" [link]="true" />
+      } }
     </div>
   </div>
 </footer>
