@@ -1,10 +1,10 @@
-<div class="flex flex-col justify-center w-5/12 m-auto">
-  <p-toast></p-toast>
+<div class="flex flex-col justify-center w-full sm:w-5/12 md:w-8-12 lg:w-4/12 m-auto">
+  <p-toast />
 
   <form
     [formGroup]="songForm"
     (ngSubmit)="onSubmit()"
-    class="flex flex-col gap-4 p-4"
+    class="flex flex-col gap-4 p-4 w-full"
   >
     <div class="flex flex-col gap-2">
       <label for="title">{{ "songs.form.title" | transloco }}</label>
@@ -46,7 +46,7 @@
         </p-inputgroup>
       </div>
       <div class="flex flex-wrap gap-2 mt-2">
-        @for (genre of genres; track $index) {
+        @for (genre of genres(); track $index) {
         <p-chip
           [label]="genre"
           [removable]="true"
@@ -54,11 +54,6 @@
         ></p-chip>
         }
       </div>
-      @if (genres.length === 0) {
-      <small class="text-red-500">{{
-        "songs.form.genre_required" | transloco
-      }}</small>
-      }
     </div>
     <small>{{ "songs.form.genre_help" | transloco }}</small>
 

@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { translateSignal, TranslocoModule } from '@jsverse/transloco';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -35,14 +35,12 @@ import { Song } from '../../../../core/models/song.model';
   styleUrls: ['./song-form.component.css']
 })
 export class SongFormComponent implements OnInit {
-  @ViewChild('inputGenre') inputGenre!: HTMLInputElement;
-
   song: Song | null = null;
   songForm: FormGroup;
   isEditMode = false;
   songId: number | null = null;
 
-  genres: string[] = [];
+  genres = signal<string[]>([]);
   newGenre: string = '';
 
   constructor(
@@ -50,19 +48,21 @@ export class SongFormComponent implements OnInit {
     private songsService: SongsApiService,
     private messageService: MessageService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private translocoService: TranslocoService
   ) {
     this.songForm = this.fb.group({
       title: ['', Validators.required],
       duration: ['', [Validators.required, Validators.min(0)]],
       year: ['', [Validators.required, Validators.min(1900)]],
-      rating: ['', [Validators.required, Validators.min(0), Validators.max(10)]],
-      artist: ['', Validators.required],
+      rating: ['', [Validators.min(0), Validators.max(10)]],
+      artist: [null],
       poster: ['', Validators.required],
     });
   }
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
+
     if (id) {
       this.isEditMode = true;
       this.songId = +id;
@@ -82,13 +82,13 @@ export class SongFormComponent implements OnInit {
           artist: song.artist,
           poster: song.poster,
         });
-        this.genres = [...song.genre];
+        this.genres.set([...song.genre]);
       },
       error: () => {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'error',
+          detail: this.translocoService.translate('songs.form.load_error'),
           life: 3000
         });
       }
@@ -98,7 +98,7 @@ export class SongFormComponent implements OnInit {
   addGenre(newGenre: string): void {
     if (newGenre.trim()) {
       newGenre.trim().split(',').map(genre => {
-        this.genres.push(genre.trim());
+        this.genres.update(genres => [...genres, genre]) ;
       });
       this.newGenre = '';
     }
@@ -107,7 +107,7 @@ export class SongFormComponent implements OnInit {
   removeGenre(genre: string): void {
   console.log("🔍 ~ removeGenre ~ src/app/features/songs/pages/song-form/song-form.component.ts:110 ~ genre:", genre)
   console.log("🔍 ~ removeGenre ~ src/app/features/songs/pages/song-form/song-form.component.ts:112 ~ this.genres:", this.genres)
-  this.genres = this.genres.filter(f => f !== genre);
+  this.genres.update(genres => genres.filter(g => g !== genre));
   console.log("🔍 ~ removeGenre ~ src/app/features/songs/pages/song-form/song-form.component.ts:112 ~ this.genres:", this.genres)
   }
 
@@ -123,22 +123,23 @@ export class SongFormComponent implements OnInit {
         : this.songsService.addSong(songData);
 
       action.subscribe({
-        next: (res: Song) => {
-          this.messageService.add({
+        next: async (res: Song) => {
+          const msv = await this.messageService.add({
             severity: 'success',
             summary: 'Success',
             detail: this.isEditMode 
-              ? translateSignal('songs.form.update_success')()
-              : translateSignal('songs.form.create_success')(),
+              ? this.translocoService.translate('songs.form.update_success')
+              : this.translocoService.translate('songs.form.create_success'),
             life: 3000
           });
-          this.router.navigate(['/songs']);
+
+          this.goToSongs();
         },
         error: () => {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: translateSignal('songs.form.save_error')(),
+            detail: this.translocoService.translate('songs.form.save_error'),
             life: 3000
           });
         }
@@ -147,6 +148,8 @@ export class SongFormComponent implements OnInit {
   }
 
   goToSongs(): void {
-    this.router.navigate(['/songs']);
+    setTimeout(() => {
+      this.router.navigate(['/songs']);;
+    }, 3000);
   }
 }
