@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, ViewChild } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,9 +16,11 @@ import { Song } from '../../../../core/models/song.model';
 import { DropdownModule } from 'primeng/dropdown';
 import { ArtistsApiService } from '../../../artists/services/artist-api.service';
 import { Artist } from '../../../../core/models/artist.model';
+import { Image } from 'primeng/image';
+import { Dialog } from 'primeng/dialog';
 
 @Component({
-  selector: 'app-song-form',
+  selector: 'SongFormComponent',
   standalone: true,
   imports: [
     CommonModule,
@@ -32,7 +34,9 @@ import { Artist } from '../../../../core/models/artist.model';
     ChipModule,
     InputGroupAddonModule,
     InputGroup,
-    DropdownModule
+    DropdownModule,
+    Image,
+    Dialog
 ],
   providers: [MessageService],
   templateUrl: './song-form.component.html',
@@ -49,6 +53,8 @@ export class SongFormComponent implements OnInit {
   newGenre: string = '';
   artists: Artist[] = [];
 
+  defaultPoster: string
+
   constructor(
     private fb: FormBuilder,
     private songsService: SongsApiService,
@@ -58,13 +64,14 @@ export class SongFormComponent implements OnInit {
     private translocoService: TranslocoService,
     private artistsService: ArtistsApiService
   ) {
+    this.defaultPoster = `http://dummyimage.com/400x600.png/${this.generateColorHex()}/ffffff`;
     this.songForm = this.fb.group({
       title: ['', Validators.required],
       duration: ['', [Validators.required, Validators.min(0)]],
       year: ['', [Validators.required, Validators.min(1900)]],
       rating: ['', [Validators.min(0), Validators.max(10)]],
       artist: [null],
-      poster: ['', Validators.required],
+      poster: [this.defaultPoster, Validators.required],
     });
   }
   ngOnInit(): void {
@@ -81,13 +88,13 @@ export class SongFormComponent implements OnInit {
   loadSong(id: number): void {
     this.songsService.getSong(id).subscribe({
       next: (song) => {
-
+        this.song = song;
         this.songForm.patchValue({
           title: song.title,
           duration: song.duration,
           year: song.year,
           rating: song.rating,
-          artist: song.artist,
+          artist: song.artist.toString(),
           poster: song.poster,
         });
         this.genres.set([...song.genre]);
@@ -116,8 +123,10 @@ export class SongFormComponent implements OnInit {
 
   onSubmit(): void {
     if (this.songForm.valid) {
+      const { artist, ...rest} = this.songForm.value;
       const songData: Song = {
-        ...this.songForm.value,
+        artist: +artist,
+        ...rest,
         genre: this.genres()
       };
 
@@ -127,7 +136,7 @@ export class SongFormComponent implements OnInit {
 
       action.subscribe({
         next: async (res: Song) => {
-          const msv = await this.messageService.add({
+          await this.messageService.add({
             severity: 'success',
             summary: 'Success',
             detail: this.isEditMode 
@@ -150,24 +159,15 @@ export class SongFormComponent implements OnInit {
     }
   }
 
-  goToSongs(): void {
-    setTimeout(() => {
-      this.router.navigate(['/songs']);;
-    }, 1000);
-  }
-
   callback(): void {
     setTimeout(() => {
       this.router.navigate([`/songs/${this.songId}`]);
-    }, 1000);
+    }, 1500);
   }
 
   loadArtists(): void {
     this.artistsService.getArtists().subscribe({
-      next: (artists) => {
-      console.log("🔍 ~ loadArtists ~ src/app/features/songs/pages/song-form/song-form.component.ts:161 ~ artists:", artists)
-        this.artists = artists;
-      },
+      next: (artists) => this.artists = artists,
       error: () => {
         this.messageService.add({
           severity: 'error',
@@ -178,4 +178,36 @@ export class SongFormComponent implements OnInit {
       }
     });
   }
+
+  visible: boolean = false;
+  position: 'bottom' | 'center' = 'center';
+
+  onHideDialog = () => this.visible = false;
+
+  onChangePosterDialog = (position: 'bottom' | 'center') => {
+    this.position = position;
+    this.visible = true;
+  }
+
+  getSongPoster = (): string => {
+    return this.song?.poster || this.defaultPoster;
+  };
+
+  onChangePoster = (url: string) => {
+    const posterUrl = url || this.defaultPoster;
+    this.songForm.patchValue({
+      poster: posterUrl
+    }); 
+    if (this.song) this.song.poster = posterUrl;
+  }
+
+  private generateColorHex(): string {
+    const characters = '0123456789ABCDEF';
+    let color = '';
+    for (let i = 0; i < 6; i++) {
+      color += characters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+  
 }

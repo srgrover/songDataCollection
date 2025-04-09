@@ -1,3 +1,9 @@
 :host ::ng-deep input, .p-inputNumber {
   height: 2em !important;
 }
+:host ::ng-deep .p-image {
+  border-radius: 2em !important;
+}
+:host ::ng-deep ..p-inputgroupaddon {
+  height: 2em !important;
+}
