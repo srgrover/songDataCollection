@@ -1,5 +1,5 @@
 
-<div class="flex flex-wrap w-full sm:max-w-9/12 sm:min-w-9/12 mx-auto gap-4 justify-end">
+<div class="hidden sm:flex flex-wrap w-full sm:max-w-9/12 sm:min-w-9/12 mx-auto gap-4 justify-end">
   <p-toolbar styleClass="border-0">
     <ng-template #start>
       <p-button
@@ -15,12 +15,18 @@
   </p-toolbar>
 </div>
 
+<div class="flex sm:hidden">
+  <p-button (click)="goToNewSong()" icon="pi pi-plus" [rounded]="true" severity="success" class="mobile-btn" />
+</div>
+
 <div
   class="flex flex-wrap w-full sm:max-w-9/12 sm:min-w-9/12 mx-auto gap-4 justify-center"
 >
   @defer (when loaded) { @for (song of songs; track song) {
   <SongCard [song]="song" />
-  } @empty { Empty list of users } } @loading {
+  } @empty { 
+    <EmptyPageComponent />
+   } } @loading {
   <div>Loading...</div>
   } @error {
   <div>{{ "songs.load_songs_error" | transloco }}</div>

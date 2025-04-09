@@ -9,6 +9,7 @@ import * as MenuActions from '../../../../../actions/menu.actions';
 import * as MenuSelector from '../../../../store/ui/menu.reducer';
 
 import { Observable, Subscription } from 'rxjs';
+import { TitleService } from '../../../services/title.service';
 
 @Component({
   selector: 'app-top-menu',
@@ -22,7 +23,7 @@ export class TopMenuComponent implements OnInit, OnDestroy {
 
   private menuSubscription!: Subscription;
 
-  constructor(private store: Store) {
+  constructor(private store: Store, public titleService: TitleService) {
     this.isMenuOpen$ = this.store.select(MenuSelector.isSideMenuOpen);
   }
   

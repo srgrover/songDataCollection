@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ChipGenreComponent } from './chip-genre.component';
+import { ChipComponent } from './chip-genre.component';
 
-describe('ChipGenreComponent', () => {
-  let component: ChipGenreComponent;
-  let fixture: ComponentFixture<ChipGenreComponent>;
+describe('ChipComponent', () => {
+  let component: ChipComponent;
+  let fixture: ComponentFixture<ChipComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ChipGenreComponent]
+      imports: [ChipComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ChipGenreComponent);
+    fixture = TestBed.createComponent(ChipComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
