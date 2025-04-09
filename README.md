@@ -1,7 +1,12 @@
-# SequenceTechnicalTest
+# Get Starter
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.6.
+1. run `npm install`
+2. [Optional] You can remove db.json and rename the db.template.json file to db.json to get a clean data
+3. Rename the .env.template file to .env
+4. Now you can run `npm run server` to up the db api server with json server
+5. Run `ng serve` on dev mode to up the server and see the app
 
+# Default info from Angular
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
