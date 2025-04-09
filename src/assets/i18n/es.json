@@ -2,7 +2,17 @@
   "header": {
     "title": "Canciones"
   },
+  "navbar": {
+    "buttons": {
+      "songs": "Canciones",
+      "artists": "Artistas",
+      "companies": "Compañías discográficas"
+    }
+  },
   "songs": {
+    "empty_title": "No se han encontrado canciones",
+    "empty_message": "No hay canciones en tu biblioteca. Añade una canción haciendo clic en el botón de abajo.",
+    "title": "Canciones",
     "load_songs_error": "Ha ocurrido un error al cargar las canciones. Inténtalo de nuevo más tarde.",
     "load_songs_empty": "No hay canciones en tu biblioteca. Añade una canción haciendo clic en el botón de abajo.",
     "buttons": {
@@ -13,12 +23,16 @@
       "artist": "Artista",
       "company": "Compañía",
       "empty_companies": "Sin compañía",
+      "empty_genres": "Sin género",
       "duration": "Duración",
       "song_duration": "{{duration}} segundos",
       "year": "Año",
       "rating": "Valoración",
       "http_get_error_404": "La canción que estás buscando no existe.",
       "http_get_error_500": "Ha ocurrido un error al cargar la canción. Inténtalo de nuevo más tarde.",
+      "remove_title": "Eliminar canción",
+      "remove_message": "¿Estás seguro de que quieres eliminar esta canción?",
+      "remove_confirm": "Sí, eliminar",
       "buttons": {
         "save": "Save",
         "edit": "Edit",
@@ -29,13 +43,15 @@
       "buttons": {
         "change": "Cambiar",
         "cancel": "Cancelar",
-        "create": "Crear canción",
-        "update": "Actualizar canción"
+        "create": "Guardar",
+        "update": "Actualizar"
       },
       "dialog": {
         "title": "Cambiar poster",
         "message": "Pega aquí la URL de la imagen del poster que quieres usar"
       },
+      "new": "Nueva canción",
+      "edit": "Editar canción",
       "title": "Título",
       "title_placeholder": "Introduce el título de la canción",
       "duration": "Duración",
@@ -55,6 +71,16 @@
       "load_error": "Error al cargar la canción",
       "load_artists_error": "Error al cargar los artistas"
     }
+  },
+  "artists": {
+    "title": "Artistas",
+    "load_artists_error": "Ha ocurrido un error al cargar los artistas. Inténtalo de nuevo más tarde.",
+    "load_artists_empty": "No hay artistas en tu biblioteca. Añade un artista haciendo clic en el botón de abajo."
+  },
+  "companies": {
+    "title": "Compañías discográficas",
+    "load_companies_error": "Ha ocurrido un error al cargar las compañías discográficas. Inténtalo de nuevo más tarde.",
+    "load_companies_empty": "No hay compañías discográficas en tu biblioteca. Añade una compañía haciendo clic en el botón de abajo."
   },
   "footer": {
     "footer_header": "Mi bilioteca de canciones",
