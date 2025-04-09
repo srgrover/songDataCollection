@@ -23,12 +23,12 @@ export class ArtistsApiService {
     return this.http.get<Artist>(url.href);
   }
   
-  getArtistsById(ids: number[]): Observable<Artist> {
+  getArtistsById(ids: number[]): Observable<Artist[]> {
     const url = new URL(this.URL);
     ids.forEach(id => {
       url.searchParams.append('id', id.toString());   
     });
-    return this.http.get<Artist>(url.href);
+    return this.http.get<Artist[]>(url.href);
   }
 
   addArtist(song: Artist): Observable<Artist> {
