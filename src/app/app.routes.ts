@@ -5,11 +5,11 @@ import { SongFormComponent } from './features/songs/pages/song-form/song-form.co
 
 export const routes: Routes = [
   { path: 'songs', component: SongsComponent },
-  { path: 'songs/:id', component: SongComponent },
   {
     path: 'songs/new',
     component: SongFormComponent,
   },
+  { path: 'songs/:id', component: SongComponent },
   {
     path: 'songs/edit/:id',
     component: SongFormComponent,
