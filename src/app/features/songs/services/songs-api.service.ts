@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Song } from '../../../core/models/song.model';
 import { environment } from '../../../../../environments/environment';
+import { map, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,13 @@ export class SongsApiService {
   }
 
   addSong(song: Song): Observable<Song> {
-    return this.http.post<Song>(this.URL, song);
+    return this.getSongs().pipe(
+      map(songs => {
+        const maxId = Math.max(...songs.map(s => +s.id), 0);
+        return { ...song, id: (maxId + 1).toString() };
+      }),
+      switchMap(songWithId => this.http.post<Song>(this.URL, songWithId))
+    );
   }
 
   updateSong(id: number, song: Song): Observable<Song> {

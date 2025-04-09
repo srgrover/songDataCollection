@@ -1,13 +1,28 @@
+
+<div class="flex flex-wrap w-full sm:max-w-9/12 sm:min-w-9/12 mx-auto gap-4 justify-end">
+  <p-toolbar styleClass="border-0">
+    <ng-template #start>
+      <p-button
+        (click)="goToNewSong()"
+        tooltipPosition="top"
+        pTooltip="{{ 'songs.buttons.add_song' | transloco }}"
+        icon="pi pi-plus"
+        label="{{'songs.buttons.add_song' | transloco }}"
+        text
+        severity="primary"
+      />
+    </ng-template>
+  </p-toolbar>
+</div>
+
 <div
   class="flex flex-wrap w-full sm:max-w-9/12 sm:min-w-9/12 mx-auto gap-4 justify-center"
 >
-  @defer (when loaded) 
-    { @for (song of songs; track song) {
-      <SongCard [song]="song" />
-    } @empty { Empty list of users } 
-  } @loading {
+  @defer (when loaded) { @for (song of songs; track song) {
+  <SongCard [song]="song" />
+  } @empty { Empty list of users } } @loading {
   <div>Loading...</div>
   } @error {
-  <div>{{ 'songs.load_songs_error' | transloco}}</div>
+  <div>{{ "songs.load_songs_error" | transloco }}</div>
   }
 </div>

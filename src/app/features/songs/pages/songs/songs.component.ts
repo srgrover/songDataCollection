@@ -7,10 +7,14 @@ import * as SongsSelectors from '../../../../store/songs/songs.reducer';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@jsverse/transloco';
 import { SongCardComponent } from '../../components/song-card/song-card.component';
+import { Toolbar } from 'primeng/toolbar';
+import { Button } from 'primeng/button';
+import { Tooltip } from 'primeng/tooltip';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-songs',
-  imports: [CommonModule, SongCardComponent, TranslocoModule],
+  imports: [CommonModule, SongCardComponent, TranslocoModule, Toolbar, Button, Tooltip],
   templateUrl: './songs.component.html',
   styleUrl: './songs.component.css',
 })
@@ -24,7 +28,7 @@ export class SongsComponent implements OnInit, OnDestroy {
 
   private songsSubscription: Subscription | undefined;
   
-  constructor(private store: Store) {
+  constructor(private store: Store, private router: Router) {
     this.store.dispatch(SongsActions.loadSongs()); // Despacha la acción para cargar las canciones
   }
 
@@ -48,6 +52,8 @@ export class SongsComponent implements OnInit, OnDestroy {
     });
   }
 
+  goToNewSong = () => this.router.navigate(['songs/new']);
+  
   delete = (id: string) => {
     this.store.dispatch(SongsActions.deleteSong({ id }));
   }
