@@ -1,0 +1,67 @@
+{
+  "header": {
+    "title": "Canciones"
+  },
+  "songs": {
+    "load_songs_error": "Ha ocurrido un error al cargar las canciones. Inténtalo de nuevo más tarde.",
+    "load_songs_empty": "No hay canciones en tu biblioteca. Añade una canción haciendo clic en el botón de abajo.",
+    "buttons": {
+      "add_song": "Añadir canción"
+    },
+    "song": {
+      "genre": "Género",
+      "artist": "Artista",
+      "company": "Compañía",
+      "empty_companies": "Sin compañía",
+      "duration": "Duración",
+      "song_duration": "{{duration}} segundos",
+      "year": "Año",
+      "rating": "Valoración",
+      "http_get_error_404": "La canción que estás buscando no existe.",
+      "http_get_error_500": "Ha ocurrido un error al cargar la canción. Inténtalo de nuevo más tarde.",
+      "buttons": {
+        "save": "Save",
+        "edit": "Edit",
+        "delete": "Remove"
+      }
+    },
+    "form": {
+      "buttons": {
+        "change": "Cambiar",
+        "cancel": "Cancelar",
+        "create": "Crear canción",
+        "update": "Actualizar canción"
+      },
+      "dialog": {
+        "title": "Cambiar poster",
+        "message": "Pega aquí la URL de la imagen del poster que quieres usar"
+      },
+      "title": "Título",
+      "title_placeholder": "Introduce el título de la canción",
+      "duration": "Duración",
+      "duration_placeholder": "Duración en segundos",
+      "genre": "Género",
+      "genre_placeholder": "Rock, Pop, Jazz...",
+      "genre_help": "Introduce los géneros separados por comas",
+      "year": "Año",
+      "year_placeholder": "Año de lanzamiento",
+      "rating": "Puntuación",
+      "rating_placeholder": "Puntuación del 0 al 10",
+      "artist": "Artista",
+      "artist_placeholder": "Selecciona un artista",
+      "create_success": "Canción creada correctamente",
+      "update_success": "Canción actualizada correctamente",
+      "save_error": "Error al guardar la canción",
+      "load_error": "Error al cargar la canción",
+      "load_artists_error": "Error al cargar los artistas"
+    }
+  },
+  "footer": {
+    "footer_header": "Mi bilioteca de canciones",
+    "footer_description": "Hecho con mucho ❤️ por {{name}}",
+    "visit_github": "Visita mi GitHub",
+    "visit_website": "Visita mi portafolio",
+    "lang_es": "Español",
+    "lang_en": "Inglés"
+  }
+}

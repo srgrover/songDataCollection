@@ -1,0 +1,27 @@
+<div class="card">
+  <p-toolbar>
+    <!-- Se usa ng-template porque así viene definido en los ejemplos de la documentación de PrimeNG -->
+    <ng-template #start>
+        <div class="flex justify-start items-center gap-3">
+            <p-button
+            (click)="toggleMenu()"
+            class="flex! sm:hidden! md:hidden!"
+              [style]="{ 'width': '2em' }"
+              icon="pi pi-bars hover:bg-transparent! flex! sm:hidden! md:hidden! text-gray-700"
+              [rounded]="true"
+              [text]="true"
+              severity="contrast"
+            />
+        </div>
+    </ng-template>
+
+    <ng-template #end>
+      <div class="flex items-center gap-2">
+        <p-avatar
+          image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+          [style]="{ width: '32px', height: '32px' }"
+        />
+      </div>
+    </ng-template>
+  </p-toolbar>
+</div>

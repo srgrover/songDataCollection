@@ -1,0 +1,248 @@
+<div
+  class="flex flex-col justify-center w-full sm:w-5/12 md:w-8/12 lg:w-4/12 m-auto"
+>
+  <p-toast />
+  <div
+    class="flex sm:flex-nowrap lg:flex-nowrap flex-wrap justify-start w-full"
+  >
+    <form
+      [formGroup]="songForm"
+      (ngSubmit)="onSubmit()"
+      class="flex sm:flex-row flex-col gap-4 w-full min-w-[250px]"
+    >
+      <div class="min-w-[250px] p-4">
+        <div class="flex flex-col gap-2">
+          <label for="duration">Poster</label>
+          <div class="flex w-full justify-center">
+            <p-image src="{{ getSongPoster() }}" alt="Image" width="250" />
+          </div>
+
+          <div class="flex-wrap justify-center gap-2 hidden sm:flex">
+            <p-button
+              type="button"
+              (click)="onChangePosterDialog('center')"
+              icon="pi pi-pencil"
+              label="{{ 'songs.form.buttons.change' | transloco }}"
+              severity="contrast"
+              styleClass="min-w-40"
+            />
+            <p-dialog
+              header="{{ 'songs.form.dialog.title' | transloco }}"
+              [modal]="true"
+              [(visible)]="visible"
+              [style]="{ width: '25rem' }"
+            >
+              <div class="flex flex-col gap-6">
+                <div class="w-full">
+                  <p-image
+                    src="{{ getSongPoster() }}"
+                    alt="Image"
+                    width="350"
+                  />
+                </div>
+
+                <span class="p-text-secondary block">{{
+                  "songs.form.dialog.message" | transloco
+                }}</span>
+                <p-inputgroup>
+                  <p-inputgroup-addon>
+                    <i class="pi pi-globe"></i>
+                  </p-inputgroup-addon>
+                  <input
+                    #inputPoster
+                    pInputText
+                    formControlName="poster"
+                    placeholder="Username"
+                    (change)="onChangePoster(inputPoster.value)"
+                  />
+                </p-inputgroup>
+                <div class="flex justify-end gap-2">
+                  <p-button
+                    label="{{ 'songs.form.buttons.cancel' | transloco }}"
+                    severity="secondary"
+                    (click)="visible = false"
+                  />
+                  <p-button
+                    icon="pi pi-check"
+                    label="{{ 'songs.form.buttons.change' | transloco }}"
+                    severity="contrast"
+                    (click)="visible = false"
+                  />
+                </div>
+              </div>
+            </p-dialog>
+          </div>
+
+          <div class="flex-wrap justify-center flex sm:hidden gap-2">
+            <p-button
+              (click)="onChangePosterDialog('bottom')"
+              icon="pi pi-pencil"
+              label="{{ 'songs.form.buttons.change' | transloco }}"
+              severity="contrast"
+              styleClass="min-w-40"
+            />
+            <p-dialog
+              header="Edit Profile"
+              [modal]="true"
+              [(visible)]="visible"
+              [position]="position"
+              [style]="{ width: '25rem' }"
+            >
+              <div class="flex flex-col gap-6">
+                <div class="w-full">
+                  <p-image
+                    src="{{ getSongPoster() }}"
+                    alt="Image"
+                    width="350"
+                  />
+                </div>
+
+                <span class="p-text-secondary block mb-8">{{
+                  "songs.form.dialog.message" | transloco
+                }}</span>
+                <p-inputgroup>
+                  <p-inputgroup-addon>
+                    <i class="pi pi-globe"></i>
+                  </p-inputgroup-addon>
+                  <input
+                    #inputPosterMobile
+                    pInputText
+                    formControlName="poster"
+                    placeholder="Username"
+                    (change)="onChangePoster(inputPosterMobile.value)"
+                  />
+                </p-inputgroup>
+                <div class="flex justify-end gap-2">
+                  <p-button
+                    label="{{ 'songs.form.buttons.cancel' | transloco }}"
+                    severity="secondary"
+                    (click)="visible = false"
+                  />
+                  <p-button
+                    icon="pi pi-check"
+                    label="{{ 'songs.form.buttons.change' | transloco }}"
+                    severity="contrast"
+                    (click)="visible = false"
+                  />
+                </div>
+              </div>
+            </p-dialog>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-4 p-4 w-full min-w-[250px]">
+        <div class="flex flex-col gap-2">
+          <label for="title">{{ "songs.form.title" | transloco }}</label>
+          <input
+            pInputText
+            id="title"
+            formControlName="title"
+            [placeholder]="'songs.form.title_placeholder' | transloco"
+          />
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="duration">{{ "songs.form.duration" | transloco }}</label>
+          <p-inputNumber
+            id="duration"
+            formControlName="duration"
+            [min]="0"
+            [placeholder]="'songs.form.duration_placeholder' | transloco"
+          ></p-inputNumber>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="genre">{{ "songs.form.genre" | transloco }}</label>
+          <div class="flex gap-2">
+            <p-inputgroup>
+              <input
+                #inputGenre
+                [(ngModel)]="newGenre"
+                [ngModelOptions]="{ standalone: true }"
+                pInputText
+                placeholder="Keyword"
+                [placeholder]="'songs.form.genre_placeholder' | transloco"
+              />
+              <p-button
+                icon="pi pi-plus"
+                (click)="addGenre(inputGenre.value)"
+                [disabled]="!inputGenre.value.trim()"
+              />
+            </p-inputgroup>
+          </div>
+          <div class="flex flex-wrap gap-2 mt-2">
+            @for (genre of genres(); track $index) {
+            <p-chip
+              [label]="genre"
+              [removable]="true"
+              (onRemove)="removeGenre(genre)"
+            ></p-chip>
+            }
+          </div>
+        </div>
+        <small>{{ "songs.form.genre_help" | transloco }}</small>
+
+        <div class="flex flex-col gap-2">
+          <label for="year">{{ "songs.form.year" | transloco }}</label>
+          <p-inputNumber
+            id="year"
+            formControlName="year"
+            [min]="1900"
+            [placeholder]="'songs.form.year_placeholder' | transloco"
+          ></p-inputNumber>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="rating">{{ "songs.form.rating" | transloco }}</label>
+          <p-inputNumber
+            id="rating"
+            formControlName="rating"
+            [min]="0"
+            [max]="10"
+            [placeholder]="'songs.form.rating_placeholder' | transloco"
+          ></p-inputNumber>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="artist">{{ "songs.form.artist" | transloco }}</label>
+          <p-dropdown
+            id="artist"
+            formControlName="artist"
+            [options]="artists"
+            optionLabel="name"
+            optionValue="id"
+            [placeholder]="'songs.form.artist_placeholder' | transloco"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+
+        <div class="flex justify-end gap-2 mt-4">
+          <p-button
+            type="button"
+            [label]="'songs.form.buttons.cancel' | transloco"
+            severity="secondary"
+            [outlined]="true"
+            (click)="callback()"
+          ></p-button>
+          <p-button 
+            [icon]="
+              (isEditMode
+                ? 'pi pi-check'
+                : 'fa fa-save'
+              ) | transloco
+            "
+            type="submit"
+            [label]="
+              (isEditMode
+                ? 'songs.form.buttons.update'
+                : 'songs.form.buttons.create'
+              ) | transloco
+            "
+            [disabled]="songForm.invalid"
+          ></p-button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

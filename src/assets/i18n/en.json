@@ -1,0 +1,67 @@
+{
+  "header": {
+    "title": "Songs"
+  },
+  "songs": {
+    "load_songs_error": "An error occurred while retrieving the songs",
+    "load_songs_empty": "There are no songs in your library",
+    "buttons": {
+      "add_song": "Add new Song"
+    },
+    "song": {
+      "genre": "Genre",
+      "artist": "Artist",
+      "company": "Company",
+      "empty_companies": "There are no companies",
+      "duration": "Duration",
+      "song_duration": "{{duration}} seconds",
+      "year": "Year",
+      "rating": "Rating",
+      "http_get_error_404": "The song you are looking for does not exist",
+      "http_get_error_500": "An error occurred while retrieving the song",
+      "buttons": {
+        "save": "Guardar",
+        "edit": "Editar",
+        "delete": "Eliminar"
+      }
+    },
+    "form": {
+      "buttons": {
+        "change": "Change",
+        "cancel": "Cancel",
+        "create": "Create song",
+        "update": "Update song"
+      },
+      "dialog": {
+        "title": "Change poster",
+        "message": "Paste the URL of the image you want to use as the poster"
+      },
+      "title": "Title",
+      "title_placeholder": "Enter song title",
+      "duration": "Duration",
+      "duration_placeholder": "Duration in seconds",
+      "genre": "Genre",
+      "genre_placeholder": "Rock, Pop, Jazz...",
+      "genre_help": "Enter genres separated by commas",
+      "year": "Year",
+      "year_placeholder": "Release year",
+      "rating": "Rating",
+      "rating_placeholder": "Rate from 0 to 10",
+      "artist": "Artist",
+      "artist_placeholder": "Select an artist",
+      "create_success": "Song created successfully",
+      "update_success": "Song updated successfully",
+      "save_error": "Error saving song",
+      "load_error": "Error loading song",
+      "load_artists_error": "Error loading artists"
+    }
+  },
+  "footer": {
+    "footer_header": "My song library",
+    "footer_description": "Made with ❤️ by {{name}}",
+    "visit_github": "Visit my GitHub",
+    "visit_website": "Visit my portfolio",
+    "lang_es": "Spanish",
+    "lang_en": "English"
+  }
+}
