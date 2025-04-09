@@ -26,6 +26,16 @@
       }
     },
     "form": {
+      "buttons": {
+        "change": "Change",
+        "cancel": "Cancel",
+        "create": "Create song",
+        "update": "Update song"
+      },
+      "dialog": {
+        "title": "Change poster",
+        "message": "Paste the URL of the image you want to use as the poster"
+      },
       "title": "Title",
       "title_placeholder": "Enter song title",
       "duration": "Duration",
@@ -39,9 +49,6 @@
       "rating_placeholder": "Rate from 0 to 10",
       "artist": "Artist",
       "artist_placeholder": "Select an artist",
-      "cancel": "Cancel",
-      "create": "Create song",
-      "update": "Update song",
       "create_success": "Song created successfully",
       "update_success": "Song updated successfully",
       "save_error": "Error saving song",
