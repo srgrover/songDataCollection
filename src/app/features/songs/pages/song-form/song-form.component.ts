@@ -18,6 +18,7 @@ import { ArtistsApiService } from '../../../artists/services/artist-api.service'
 import { Artist } from '../../../../core/models/artist.model';
 import { Image } from 'primeng/image';
 import { Dialog } from 'primeng/dialog';
+import { TitleService } from '../../../../shared/services/title.service';
 
 @Component({
   selector: 'SongFormComponent',
@@ -62,7 +63,8 @@ export class SongFormComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private translocoService: TranslocoService,
-    private artistsService: ArtistsApiService
+    private artistsService: ArtistsApiService,
+    private titleService: TitleService,
   ) {
     this.defaultPoster = `http://dummyimage.com/400x600.png/${this.generateColorHex()}/ffffff`;
     this.songForm = this.fb.group({
@@ -77,11 +79,14 @@ export class SongFormComponent implements OnInit {
   ngOnInit(): void {
     this.loadArtists()
     const id = this.route.snapshot.paramMap.get('id');
-
+    
     if (id) {
+      this.titleService.title.set(this.translocoService.translate('songs.form.edit'));
       this.isEditMode = true;
       this.songId = +id;
       this.loadSong(this.songId);
+    } else {
+      this.titleService.title.set(this.translocoService.translate('songs.form.new'));
     }
   }
 
