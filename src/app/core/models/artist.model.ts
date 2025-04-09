@@ -3,7 +3,7 @@ export interface Artist {
   name:      string;
   bornCity:  string;
   birthdate: string;
-  img:       string;
+  img?:       string | null;
   rating:    number;
   songs:     number[];
 }
