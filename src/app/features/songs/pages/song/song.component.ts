@@ -13,14 +13,14 @@ import { Toolbar } from 'primeng/toolbar';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { HttpErrorResponse } from '@angular/common/http';
-import { TranslocoModule } from '@jsverse/transloco';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { Tooltip } from 'primeng/tooltip';
 import { ImportsModule } from './imports';
 import { ToastModule } from 'primeng/toast';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { DividerModule } from 'primeng/divider';
 import { SongCardComponent } from '../../components/song-card/song-card.component';
-import { ChipGenreComponent } from '../../components/chip-genre/chip-genre.component';
+import { ChipComponent } from '../../components/chip-genre/chip-genre.component';
 import { SongSkeletonComponent } from '../../components/song-skeleton/song-skeleton.component';
 import { CompanyApiService } from '../../../companies/services/company-api.service';
 import { Company } from '../../../../core/models/company.model';
@@ -38,7 +38,7 @@ import { Company } from '../../../../core/models/company.model';
     ButtonModule,
     ToastModule,
     ProgressSpinnerModule,
-    ChipGenreComponent,
+    ChipComponent,
     SongSkeletonComponent,
     DividerModule,
   ],
@@ -63,6 +63,7 @@ export class SongComponent implements OnInit, OnDestroy {
   ];
 
   private songSubscription: Subscription | undefined;
+  private companySubscription: Subscription | undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -70,7 +71,8 @@ export class SongComponent implements OnInit, OnDestroy {
     private songsService: SongsApiService,
     private companyService: CompanyApiService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private translocoService: TranslocoService
   ) {
     const paramId = this.route.snapshot.paramMap.get('id');
     this.id = paramId ? +paramId : null;
@@ -84,27 +86,31 @@ export class SongComponent implements OnInit, OnDestroy {
   getSong = () => {
     this.songSubscription = this.songsService.getSong(this.id!).subscribe({
       next: (song) => {
-        if (song) {
-          this.song = song;
-          this.companyService.getCompaniesBySongId(song.id).subscribe({
-            next: (companies) => (this.companies = companies),
-            error: (err: HttpErrorResponse) => {
-              this.messageService.add({
-                severity: 'error',
-                summary: err.status === 404 ? '404 - Error' : 'Error',
-                detail: err.message,
-              });
-            },
-          });
-        }
+        if(!song) this.goToSongs();
+
+        this.song = song;
+        this.companySubscription = this.companyService.getCompaniesBySongId(song.id).subscribe({
+          next: (companies) => (this.companies = companies),
+          error: (err: HttpErrorResponse) => {
+            this.messageService.add({
+              severity: 'error',
+              summary: err.status === 404 ? '404 - Error' : 'Error',
+              detail: err.message,
+            });
+          },
+        });
       },
       error: (err: HttpErrorResponse) => {
         this.messageService.add({
           severity: 'error',
-          summary: err.status === 404 ? '404 - Error' : 'Error',
-          //detail: this.translateSong()['http_get_error_404'],
+          summary: 'Error',
+          detail: this.translocoService.translate('songs.song.http_get_error_404'),
           life: 3000,
         });
+
+        setTimeout(() => {
+          this.goToSongs();
+        }, 2000);
       },
     });
   };
@@ -118,18 +124,18 @@ export class SongComponent implements OnInit, OnDestroy {
   onDelete = (event: Event) => {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
-      message: 'Are you sure that you want to proceed?',
-      header: 'Confirmation',
+      message: this.translocoService.translate('songs.song.remove_message'),
+      header: this.translocoService.translate('songs.song.remove_title'),
       closable: true,
       closeOnEscape: true,
       icon: 'pi pi-exclamation-triangle',
       rejectButtonProps: {
-        label: 'Cancel',
+        label: this.translocoService.translate('songs.form.buttons.cancel'),
         severity: 'secondary',
         outlined: true,
       },
       acceptButtonProps: {
-        label: 'Delete',
+        label: this.translocoService.translate('songs.song.remove_confirm'),
         severity: 'danger',
       },
       accept: () => {
@@ -160,7 +166,30 @@ export class SongComponent implements OnInit, OnDestroy {
     this.messageService.add({ ...message, life: 3000, severity: 'error', summary: 'Error' });
   };
 
+  onRemoveChipGenre = (genre: string) => {
+    this.song!.genre = this.song!.genre.filter((g: string) => g !== genre);
+    this.songsService.updateSong(this.song!.id, this.song!).subscribe({
+      next: (song) => this.showSuccessMessage({detail: 'Genre deleted'}),
+      error: (err: HttpErrorResponse) => console.error(err.message),
+    })
+  }
+
+  onRemoveChipCompany = (company: Company) => {
+    const actualCompany = this.companies.find((c: Company) => c.id === company.id);
+    const {songs, ...rest} = actualCompany!;
+    const newSongs = songs.filter((s: number) => s !== +this.song!.id);
+    const companyForDelete = { songs: newSongs, ...rest };
+    this.companyService.updateCompany(+(actualCompany!.id), companyForDelete).subscribe({
+      next: () => {
+        this.showSuccessMessage({detail: 'Company deleted'});
+        this.companies = this.companies.filter((c: Company) => c.id !== company.id);
+      },
+      error: (err: HttpErrorResponse) => console.error(err.message),
+    })
+  }
+
   ngOnDestroy() {
-    if (this.songSubscription) this.songSubscription?.unsubscribe();
+    if (this.songSubscription) this.songSubscription.unsubscribe();
+    if (this.companySubscription) this.companySubscription.unsubscribe();
   }
 }

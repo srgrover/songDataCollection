@@ -1,6 +1,7 @@
-<div class="flex flex-col justify-center w-full sm:w-5/12 m-auto">
+<div class="flex flex-col justify-center w-full sm:w-5/12 m-auto ">
+  <p-toast />
   @defer (when song) {
-  <p-toolbar styleClass="border-0">
+  <p-toolbar class="border-0 sticky! top-0! bg-white">
     <ng-template #start>
       <p-button
         (click)="onEdit()"
@@ -33,16 +34,18 @@
       <span>{{ "songs.song.genre" | transloco }}</span>
       <div class="card flex items-center gap-2 flex-wrap">
         @for (genre of song?.genre; track $index) {
-        <ChipGenreComponent [genre]="genre" [song]="song!" />
+        <ChipComponent [label]="genre" [song]="song!" (remove)="onRemoveChipGenre(genre)" />
+        } @empty {
+          <span class="text-sm">{{ "songs.song.empty_genres" | transloco }}</span>
         }
       </div>
       <span>{{ "songs.song.company" | transloco }}</span>
 
       <div class="card flex items-center gap-2 flex-wrap">
         @for (company of companies; track $index) {
-        <ChipGenreComponent [genre]="company.name" [song]="song!" />
+        <ChipComponent [label]="company.name" [song]="song!" (remove)="onRemoveChipCompany(company)" />
         } @empty {
-        <span>{{ "songs.song.empty_companies" | transloco }}</span>
+        <span class="text-sm">{{ "songs.song.empty_companies" | transloco }}</span>
         }
       </div>
       <p-divider />
